@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Javascript ContactList
+        </title>
+        <style>
+            body{
+                margin:0;
+                padding:0;
+            }
+            #header{
+                width:100%;
+                height:100px;
+                background-color: black;
+                color:white;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                letter-spacing: 1px;
+            }
+
+            #heading{
+                font-size: xx-large;
+                font-weight: 700;
+            }
+
+            #links a{
+                text-decoration: none;
+                color:white;
+            }
+
+            #container{
+                width:50%;
+                height:100px;
+                background-color: black;
+                margin:20px 25%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #contactlist{
+                width:50%;
+                color: white;
+                margin:20px 25%;
+                min-height: 400px;
+                
+            }
+            .singlecontact{
+                background-color: black;
+                height:50px;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                margin:20px 10%
+            }
+
+            #footer{
+                width:100%;
+                height:80px;
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-size: xx-large;
+                font-weight: 700;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="heading">Contact List</div>
+            <div id="links">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+        <div>
+            <form id="container">
+                <input type="text" placeholder="Enter Contact Info" id="title"></input>
+                <input type="button" value="Add To Contacts" name="Add To Contacts" id="addContact"></input>
+            </form>
+        </div>
+        <div id="contactlist">
+            
+    
+        </div>
+        <div id="footer">
+            Thanks
+        </div>
+    </body>
+    <script>
+        var title = document.getElementById("title");
+        var addContactButton = document.getElementById("addContact");
+        var contactlist = document.getElementById("contactlist")
+        var contactList = [];
+
+        addContactButton.addEventListener("click", function(e){
+            e.preventDefault();
+            contactList.push(title.value);
+            title.value = "";
+            renderList();
+        })
+
+        function handleDelete(index){
+            var newContactList = [];
+            for(let i=0; i<contactList.length;i++){
+                if(i !== index){
+                    newContactList.push(contactList[i])
+                }
+            }
+            contactList = newContactList;
+            renderList();
+        }
+
+        function handleEdit(index){
+            title.value = contactList[index];
+            handleDelete(index);
+            renderList();
+        }
+
+        function renderList(){
+            var res = "";
+            for(let i=0;i<contactList.length;i++){
+                var single = contactList[i];
+                var html = `<div class="singlecontact">
+                                <div class="contacttitle">${single}</div>
+                                <div class="buttons">
+                                    <button onclick=handleEdit(${i})>Edit</button>
+                                    <button onclick=handleDelete(${i})>Delete</button>
+                                </div>
+                            </div>`
+                res+=html;
+            }
+            contactlist.innerHTML = res;
+        }
+    </script>
+</html>
